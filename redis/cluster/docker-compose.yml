@@ -1,0 +1,146 @@
+version: '3'
+services:
+  # 节点1
+  redis1:
+    container_name: redis-node-1
+    env_file: 
+      - ./.env
+    image: ${IMAGE_VERSION}
+    # 端口映射
+    ports:
+      - ${NODE_1_PORTS}
+      - ${NODE_1_PORT_CLUSTER}
+    networks:
+        cluster-net:
+          ipv4_address: 172.10.15.11
+    volumes:
+      # 容器的data映射到宿主机
+      - ${BASE_DIR}/node-${NODE_1_PORT}/data:/data
+      # 加载配置文件
+      - ${BASE_DIR}/share:/usr/local/etc/redis
+    # 启动redis的时候指定配置文件
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment: 
+      - TZ=${TIMEZONE}
+
+  # 节点2
+  redis2:
+    container_name: redis-node-2
+    env_file: 
+      - ./.env
+    image: ${IMAGE_VERSION}
+    # 端口映射
+    ports:
+      - ${NODE_2_PORTS}
+      - ${NODE_2_PORT_CLUSTER}
+    networks:
+        cluster-net:
+          ipv4_address: 172.10.15.12
+    volumes:
+      # 容器的data映射到宿主机
+      - ${BASE_DIR}/node-${NODE_2_PORT}/data:/data
+      # 加载配置文件
+      - ${BASE_DIR}/share:/usr/local/etc/redis
+    # 启动redis的时候指定配置文件  
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment: 
+      - TZ=${TIMEZONE}
+
+  # 节点3
+  redis3:
+    container_name: redis-node-3
+    env_file:
+      - ./.env
+    image: ${IMAGE_VERSION}
+    # 端口映射
+    ports:
+      - ${NODE_3_PORTS}
+      - ${NODE_3_PORT_CLUSTER}
+    networks:
+        cluster-net:
+          ipv4_address: 172.10.15.13
+    volumes:
+      # 容器的data映射到宿主机
+      - ${BASE_DIR}/node-${NODE_3_PORT}/data:/data
+      # 加载配置文件
+      - ${BASE_DIR}/share:/usr/local/etc/redis
+    # 启动redis的时候指定配置文件
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment:
+      - TZ=${TIMEZONE}
+
+  # 节点4
+  redis4:
+    container_name: redis-node-4
+    env_file:
+      - ./.env
+    image: ${IMAGE_VERSION}
+    # 端口映射
+    ports:
+      - ${NODE_4_PORTS}
+      - ${NODE_4_PORT_CLUSTER}
+    networks:
+        cluster-net:
+          ipv4_address: 172.10.15.14
+    volumes:
+      # 容器的data映射到宿主机
+      - ${BASE_DIR}/node-${NODE_4_PORT}/data:/data
+      # 加载配置文件
+      - ${BASE_DIR}/share:/usr/local/etc/redis
+    # 启动redis的时候指定配置文件
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment:
+      - TZ=${TIMEZONE}
+
+  # 节点5
+  redis5:
+    container_name: redis-node-5
+    env_file:
+      - ./.env
+    # 使用哪种镜像
+    image: ${IMAGE_VERSION}
+    # 端口映射
+    ports:
+      - ${NODE_5_PORTS}
+      - ${NODE_5_PORT_CLUSTER}
+    networks:
+        cluster-net:
+          ipv4_address: 172.10.15.15
+    volumes:
+      # 容器的data映射到宿主机
+      - ${BASE_DIR}/node-${NODE_5_PORT}/data:/data
+      # 加载配置文件
+      - ${BASE_DIR}/share:/usr/local/etc/redis
+    # 启动redis的时候指定配置文件
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment:
+      - TZ=${TIMEZONE}
+
+  # 节点6
+  redis6:
+    container_name: redis-node-6
+    env_file:
+      - ./.env
+    image: ${IMAGE_VERSION}
+    # 端口映射
+    ports:
+      - ${NODE_6_PORTS}
+      - ${NODE_6_PORT_CLUSTER}
+    networks:
+        cluster-net:
+          ipv4_address: 172.10.15.16
+    volumes:
+      # 容器的data映射到宿主机
+      - ${BASE_DIR}/node-${NODE_6_PORT}/data:/data
+      # 加载配置文件
+      - ${BASE_DIR}/share:/usr/local/etc/redis
+    # 启动redis的时候指定配置文件
+    command: redis-server /usr/local/etc/redis/redis.conf
+    environment:
+      - TZ=${TIMEZONE}
+networks:
+  # 创建集群网络，在容器之间通信
+  cluster-net:
+    ipam:
+      config:
+        - subnet: 172.10.15.0/24
